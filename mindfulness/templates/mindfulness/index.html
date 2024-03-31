@@ -1,0 +1,9 @@
+{% if meditations %}
+<h1>Mindfulness</h1>
+{% load embed_video_tags %}
+<!-- The video tag: -->
+{% for item in meditations %}
+{% video item.url '426x240' %}
+
+{% endfor %}
+{% endif %}
