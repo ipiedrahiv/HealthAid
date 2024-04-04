@@ -19,5 +19,6 @@ from django.urls import include, path
 
 urlpatterns = [
     path("mindfulness/", include("mindfulness.urls")),
+    path("emotiontrack/", include("emotiontrack.urls")),
     path("admin/", admin.site.urls),
 ]
