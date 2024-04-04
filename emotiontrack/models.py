@@ -1,11 +1,14 @@
 from django.db import models
 
-class Entry(models.Model):
-    added = models.DateTimeField(auto_now_add=True)
-    class Emotion(models.TextChoices):
-        HAPPY = 'Happy'
-        NORMAL = 'Normal'
-        SAD = 'Sad'
-    emotion = models.CharField(max_length=20, choices=Emotion.choices, default=Emotion.NORMAL)
+class Trackable(models.Model):
+    trackable_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField("date published")
+    def __str__(self):
+        return self.trackable_text
 
-
+class Choice(models.Model):
+    trackable_id = models.ForeignKey(Trackable, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+    def __str__(self):
+        return self.choice_text

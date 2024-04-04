@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "homepage.apps.HomepageConfig",
     "mindfulness.apps.MindfulnessConfig",
     "emotiontrack.apps.EmotiontrackConfig",
     "django.contrib.admin",
