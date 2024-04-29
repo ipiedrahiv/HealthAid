@@ -1,0 +1,11 @@
+{% load static %}
+<link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="/emotiontrack/{{ question.id }}/">{{ question.trackable_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No trackables.</p>
+{% endif %}

@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+{% block content %}
+  <h1>Flourish Homepage</h1>
+  <p>
+    Welcome to flourish!
+    <br>
+    <a href="{% url 'emotiontrack:index'%}">Go to Mood Check-in</a>
+    <br>
+    <a href="{% url 'mindfulness:index'%}">Go to Guided Meditations</a>
+  </p>
+{% endblock %}

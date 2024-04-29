@@ -1,9 +1,16 @@
+{% load static %}
+<link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
 {% if meditations %}
 <h1>Mindfulness</h1>
 {% load embed_video_tags %}
 <!-- The video tag: -->
 {% for item in meditations %}
-{% video item.url '426x240' %}
-
+<div class="px-3 mb-5">
+    <div class="d-flex justify-content-start">
+        <h2>{{item.title}}</h2>
+        {{item.description}}
+    </div>
+    {% video item.url '426x240' %}
+</div>
 {% endfor %}
 {% endif %}
