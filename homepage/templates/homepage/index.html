@@ -1,12 +1,33 @@
 {% load static %}
 <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+<link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/minty/bootstrap.min.css"/>
 {% block content %}
-  <h1>Flourish Homepage</h1>
-  <p>
-    Welcome to flourish!
+  <div class="container mt-5">
+    <h1>Flourish Homepage</h1>
+    <div class="my-4">
+      <h2>Welcome to Flourish!</h2>
+    </div>
     <br>
-    <a href="{% url 'emotiontrack:index'%}">Go to Mood Check-in</a>
+    <div class="my-4">
+      <h3>Navigate Emotions</h3>
+      <p>Embark on a journey of self-discovery and emotional awareness.
+        By tracking your mood on a daily basis, you're taking an important step towards understanding the intricate
+        patterns of your emotional landscape. Reflect on the highs and lows, learn from them, and find your way to a more balanced
+        and fulfilling emotional life.
+        Start charting your course today and see how tracking the changes of your mood can lead to valuable insights
+        and personal growth.
+      </p>
+      <a href="{% url 'emotiontrack:index'%}" class="btn btn-primary">Go to Mood Check-in</a>
+    </div>
     <br>
-    <a href="{% url 'mindfulness:index'%}">Go to Guided Meditations</a>
-  </p>
+    <div class="my-4">
+      <h3>Unwind Your Mind</h3>
+      <p>Take a moment to pause and be more present.
+        This 5-minute meditation will help you bring your awareness back to the body and breath,
+        which can help which may aid in switching off the stress-related fight or flight reaction and foster a sense
+        of tranquility.
+      </p>
+      <a href="{% url 'mindfulness:index'%}" class="btn btn-secondary">Go to Guided Meditations</a>
+    </div>
+  </div>
 {% endblock %}
