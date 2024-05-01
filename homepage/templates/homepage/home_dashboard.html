@@ -1,5 +1,7 @@
 {% extends 'homepage/base.html' %}
 
+{% load static %}
+
 {% block content %}
   <div class="container mt-5">
     <h1>Flourish Homepage</h1>
@@ -7,6 +9,14 @@
       <h2>Welcome to Flourish!</h2>
     </div>
     <br>
+    <div class="center-text">
+      <img src="{% static 'images/flourish_home.png' %}" alt="A man with flowers growing out of his head">
+    </div>
+    <style>
+      .center-text {
+          text-align: center; /* Center horizontally */
+      }
+    </style>
     <h3 class="text-center">How are you feeling today?</h3>
     <br>
     <div class="d-flex justify-content-center align-items-center mb-3">
@@ -45,7 +55,7 @@
           <button class="btn btn-sm btn-success mt-1">great</button>
         </div>
       </div>
-
+    <br>
     <div class="my-4">
       <h3>Navigate Emotions</h3>
       <p>Embark on a journey of self-discovery and emotional awareness.
