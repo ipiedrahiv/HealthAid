@@ -1,16 +1,29 @@
+{% extends 'mindfulness/base.html' %}
+
 {% load static %}
-<link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+{% block content %}
 {% if meditations %}
-<h1>Mindfulness</h1>
 {% load embed_video_tags %}
-<!-- The video tag: -->
-{% for item in meditations %}
-<div class="px-3 mb-5">
-    <div class="d-flex justify-content-start">
-        <h2>{{item.title}}</h2>
+<div class="container mt-5">
+    <h1>Mindfulness</h1>
+    <br>
+    <div class="px-3 mb-5">
+        <!-- The video tag: -->
+        {% for item in meditations %}
+        <div class="d-flex justify-content-start">
+            <h2>{{item.title}}</h2>
+            <br>
+        </div>
         {{item.description}}
+        <br>
+        <br>
+        <div style="display: flex; justify-content: center; align-items: center; ">
+            {% video item.url '426x240' %}
+        </div>
+        <br>
+        <br>
+        {% endfor %}
+        {% endif %}
     </div>
-    {% video item.url '426x240' %}
 </div>
-{% endfor %}
-{% endif %}
+{% endblock %}

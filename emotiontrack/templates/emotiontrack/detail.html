@@ -1,15 +1,21 @@
+{% extends 'emotiontrack/base.html' %}
+
+{% block content %}
 {% load static %}
-<link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
-<h1>{{ trackable.trackable_text }}</h1>
-<form action="{% url 'emotiontrack:vote' trackable.id %}" method="post">
-{% csrf_token %}
-<fieldset>
-    <legend><h1>{{ trackable.trackable_text }}</h1></legend>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    {% for choice in trackable.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
-    {% endfor %}
-</fieldset>
-<input type="submit" value="Vote">
-</form>
+<div class="container mt-5">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+    <h1>{{ trackable.trackable_text }}</h1>
+    <form action="{% url 'emotiontrack:vote' trackable.id %}" method="post">
+    {% csrf_token %}
+    <fieldset>
+        <!-- <legend><h1>{{ trackable.trackable_text }}</h1></legend> -->
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        {% for choice in trackable.choice_set.all %}
+            <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+            <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+        {% endfor %}
+    </fieldset>
+    <input type="submit" value="Vote">
+    </form>
+</div>
+{% endblock %}
