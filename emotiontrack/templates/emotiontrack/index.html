@@ -1,3 +1,6 @@
+{% extends 'emotiontrack/base.html' %}
+
+{% block content %}
 {% load static %}
 <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
 {% if request.user.is_authenticated %}
