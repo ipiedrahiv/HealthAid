@@ -1,0 +1,20 @@
+{% extends 'emotiontrack/base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+{% if request.user.is_authenticated %}
+    Hi {{ user.username }}! How are you feeling?
+    {% if latest_question_list %}
+    <ul>
+        {% for question in latest_question_list %}
+            <li><a href="/emotiontrack/{{ question.id }}/">{{ question.trackable_text }}</a></li>
+        {% endfor %}
+     </ul>
+        {% else %}
+            <p>No trackables.</p>
+        {% endif %}
+{% else %}
+    Do you want to <a href="{% url 'login' %}">Log In</a> or <a href="{% url 'signup' %}">Sign-Up</a>?
+{% endif%}
+{% endblock content %}
