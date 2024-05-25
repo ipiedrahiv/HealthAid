@@ -3,16 +3,17 @@
 {% block content %}
 {% load static %}
 <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
-<div class="container mt-5">
-    <h1>Emotion Dashboard</h1>
+{% if request.user.is_authenticated %}
+    Hi {{ user.username }}! How are you feeling?
     {% if latest_question_list %}
     <ul>
-    {% for question in latest_question_list %}
-        <li><a href="/emotiontrack/{{ question.id }}/">{{ question.trackable_text }}</a></li>
-    {% endfor %}
-    </ul>
+        {% for question in latest_question_list %}
+            <li><a href="/emotiontrack/{{ question.id }}/">{{ question.trackable_text }}</a></li>
+        {% endfor %}
+     </ul>
+        {% else %}
+            <p>No trackables.</p>
+        {% endif %}
 {% else %}
-    <p>No trackables.</p>
-{% endif %}
-</div>
-{% endblock %}
+    Do you want to <a href="{% url 'login' %}">Log In</a> or <a href="{% url 'signup' %}">Sign-Up</a>?
+{% endif%}

@@ -22,4 +22,6 @@ urlpatterns = [
     path("mindfulness/", include("mindfulness.urls")),
     path("emotiontrack/", include("emotiontrack.urls")),
     path("admin/", admin.site.urls),
+    path("accounts/", include("accounts.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
