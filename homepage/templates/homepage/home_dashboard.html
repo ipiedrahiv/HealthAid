@@ -8,10 +8,6 @@
     {% if user.is_authenticated %}
     <div class="my-4">
         <h2>Welcome to Flourish, {{ user.username }}!</h2>
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Log Out</button>
-        </form>
     </div>
     {% else %}
         <div class="my-4">
