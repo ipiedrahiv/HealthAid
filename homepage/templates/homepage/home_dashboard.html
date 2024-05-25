@@ -5,9 +5,21 @@
 {% block content %}
   <div class="container mt-5">
     <h1>Flourish Homepage</h1>
+    {% if user.is_authenticated %}
     <div class="my-4">
-      <h2>Welcome to Flourish!</h2>
-    </div>
+        <h2>Welcome to Flourish, {{ user.username }}!</h2>
+        </div>
+        <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+            <button type="submit">Log Out</button>
+        </form>
+        </div>
+    {% else %}
+        <p>Welcone to Flourish!</p>
+        </div>
+        Do you want to <a href="{% url 'login' %}">Log In</a> or <a href="{% url 'signup' %}">Sign-Up</a>?
+        </div>
+    {% endif %}
     <br>
     <div class="center-text">
       <img src="{% static 'images/flourish_home.png' %}" alt="A man with flowers growing out of his head">
