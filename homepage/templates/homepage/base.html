@@ -1,18 +1,65 @@
 {% load static %}
 
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width-device-width, initial-scale=1, maximum-scale=1"/>
-        <!-- Style: -->
-        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/minty/bootstrap.min.css"/>
-        <!-- Icons: -->
-        <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <title>Flourish</title>
-    </head>
-    <body>
-        {% block content %}
-        {% endblock content %}
-    </body>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <!-- Style: -->
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/minty/bootstrap.min.css"/>
+    <!-- Icons: -->
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Flourish</title>
+    <style>
+        .navbar-custom {
+            background-color: #ffffff; 
+        }
+        .navbar-custom {
+            background-color: #fff; /* white background */
+            border-bottom: 1px solid #dee2e6; /* bottom border */
+        }
+        .navbar-custom .nav-link, .navbar-custom .navbar-brand {
+            color: #000; /* text color */
+        }
+        .navbar-custom .nav-link:hover {
+            color: #007bff; /* color on hover */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="#">Flourish</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="nav-link">Welcome, {{ user.username }}!</span>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="post" class="form-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger my-2 my-sm-0">Log Out</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
 </html>

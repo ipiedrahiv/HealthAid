@@ -8,16 +8,14 @@
     {% if user.is_authenticated %}
     <div class="my-4">
         <h2>Welcome to Flourish, {{ user.username }}!</h2>
-        </div>
         <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
+            {% csrf_token %}
             <button type="submit">Log Out</button>
         </form>
-        </div>
+    </div>
     {% else %}
-        <p>Welcone to Flourish!</p>
-        </div>
-        Do you want to <a href="{% url 'login' %}">Log In</a> or <a href="{% url 'signup' %}">Sign-Up</a>?
+        <div class="my-4">
+            <h2>Welcome to Flourish!</h2>
         </div>
     {% endif %}
     <br>
@@ -29,44 +27,46 @@
           text-align: center; /* Center horizontally */
       }
     </style>
-    <h3 class="text-center">How are you feeling today?</h3>
+    <h3 class="text-center"><strong>Plant the seeds of self-care</strong></h3>
+    <h4 class="text-center">Watch yourself flourish</h4>
     <br>
-    <div class="d-flex justify-content-center align-items-center mb-3">
+
+    <!-- <div class="d-flex justify-content-center align-items-center mb-3"> -->
         <!-- Awful mood -->
-        <div class="text-center mx-1">
+        <!-- <div class="text-center mx-1">
           <i class="fa fa-frown-o fa-2x" aria-hidden="true" style="color: #dc3545;"></i>
           <br>
           <button class="btn btn-sm btn-danger mt-1">awful</button>
-        </div>
+        </div> -->
       
         <!-- Bad mood -->
-        <div class="text-center mx-1">
+        <!-- <div class="text-center mx-1">
           <i class="fa fa-frown-o fa-2x" aria-hidden="true" style="color: #ffc107;"></i>
           <br>
           <button class="btn btn-sm btn-warning mt-1">bad</button>
-        </div>
+        </div> -->
       
         <!-- Meh mood -->
-        <div class="text-center mx-1">
+        <!-- <div class="text-center mx-1">
           <i class="fa fa-meh-o fa-2x" aria-hidden="true" style="color: #e788a8;"></i>
           <br>
           <button class="btn btn-sm btn-secondary mt-1">meh</button>
-        </div>
+        </div> -->
       
         <!-- Good mood -->
-        <div class="text-center mx-1">
-          <i class="fa fa-smile-o fa-2x" aria-hidden="true" style="color: #17a2b8;"></i>
-          <br>
-          <button class="btn btn-sm btn-info mt-1">good</button>
-        </div>
+        <!-- <div class="text-center mx-1"> -->
+          <!-- <i class="fa fa-smile-o fa-2x" aria-hidden="true" style="color: #17a2b8;"></i> -->
+          <!-- <br> -->
+          <!-- <button class="btn btn-sm btn-info mt-1">good</button> -->
+        <!-- </div> -->
       
         <!-- Great mood -->
-        <div class="text-center mx-1">
-          <i class="fa fa-smile-o fa-2x" aria-hidden="true" style="color: #198754;"></i>
-          <br>
-          <button class="btn btn-sm btn-success mt-1">great</button>
-        </div>
-      </div>
+        <!-- <div class="text-center mx-1"> -->
+          <!-- <i class="fa fa-smile-o fa-2x" aria-hidden="true" style="color: #198754;"></i> -->
+          <!-- <br> -->
+          <!-- <button class="btn btn-sm btn-success mt-1">great</button> -->
+        <!-- </div> -->
+      <!-- </div> -->
     <br>
     <div class="my-4">
       <h3>Navigate Emotions</h3>
@@ -88,6 +88,7 @@
         of tranquility.
       </p>
       <a href="{% url 'mindfulness:index'%}" class="btn btn-secondary">Go to Guided Meditations</a>
+      <br>
     </div>
   </div>
 {% endblock %}
