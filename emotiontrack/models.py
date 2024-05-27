@@ -19,6 +19,7 @@ class Choice(models.Model):
         GOOD = '3', 'Good'
         GREAT = '4', 'Great'
 
+    created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, help_text="It is a Foreign key with auth.models.User. Used to manage authentication and accounting.", on_delete=models.CASCADE, default=None)
     choice_text = models.CharField('result', max_length=1, choices=MoodChoices.choices, default=MoodChoices.GOOD)
     def __str__(self):
