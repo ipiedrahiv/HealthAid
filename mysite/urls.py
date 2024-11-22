@@ -1,8 +1,8 @@
 """
-URL configuration for flourish project.
+URL configuration for mysite project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+    https://docs.djangoproject.com/en/5.1/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -15,13 +15,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
 
 urlpatterns = [
     path("", include("homepage.urls")),
-    path("mindfulness/", include("mindfulness.urls")),
-    path("emotiontrack/", include("emotiontrack.urls")),
     path("admin/", admin.site.urls),
+    path("symptomtrack/", include("symptomtrack.urls")),
     path("accounts/", include("accounts.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
 ]

@@ -12,16 +12,15 @@ class Trackable(models.Model):
 
 class Choice(models.Model):
     
-    class MoodChoices(models.TextChoices):
-        AWFUL = '0', 'Awful'
-        BAD = '1', 'Bad'
-        MEH = '2', 'Meh'
-        GOOD = '3', 'Good'
-        GREAT = '4', 'Great'
+    class SymptomChoices(models.TextChoices):
+        EXTREME = '0', 'Extreme'
+        SEVERE = '1', 'Severe'
+        MODERATE = '2', 'Moderate'
+        MILD = '3', 'Mild'
+        NONE = '4', 'None'
 
     created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, help_text="It is a Foreign key with auth.models.User. Used to manage authentication and accounting.", on_delete=models.CASCADE, default=None)
-    choice_text = models.CharField('result', max_length=1, choices=MoodChoices.choices, default=MoodChoices.GOOD)
+    choice_text = models.CharField('result', max_length=1, choices=SymptomChoices.choices, default=SymptomChoices.NONE)
     def __str__(self):
         return self.choice_text
-

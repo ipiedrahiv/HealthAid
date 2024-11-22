@@ -1,3 +1,7 @@
+from django.shortcuts import render
+
+# Create your views here.
+
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.db.models import F
@@ -15,56 +19,56 @@ from plotly.subplots import make_subplots
 from django.utils import timezone
 from datetime import timedelta
 
-from .forms import MoodForm
+from .forms import SymptomForm
 from .models import Choice
 
-class MoodThanks(TemplateView):
-    template_name = 'emotiontrack/mood_thanks.html'
+class SymptomThanks(TemplateView):
+    template_name = 'symptomtrack/symptom_thanks.html'
 
-mood_thanks = MoodThanks.as_view()
+symptom_thanks = SymptomThanks.as_view()
 
 @login_required
-def register_mood(request):
+def register_symptom(request):
     if request.method == 'POST':
-        form = MoodForm(request.POST)
+        form = SymptomForm(request.POST)
         if form.is_valid():
             mood = form.save(commit=False)
             mood.owner = request.user
             mood.save()
-            return redirect('emotiontrack:mood_dashboard')  # Redirect to a thank you page or any other page
+            return redirect('symptomtrack:symptom_dashboard')  # Redirect to a thank you page or any other page
     else:
-        form = MoodForm()
-    return render(request, 'emotiontrack/register_mood.html', {'form': form})
+        form = SymptomForm()
+    return render(request, 'symptomtrack/register_symptom.html', {'form': form})
 
 @login_required
-def mood_dashboard(request):
+def symptom_dashboard(request):
     # Get the current date and time
     now = timezone.now()
     # Calculate the date for one month ago
     one_month_ago = now - timedelta(days=30)
 
-    moods = Choice.objects.filter(owner=request.user, created__gte=one_month_ago)
-    mood_counts = moods.values('choice_text').annotate(count=Count('choice_text'))
+    symptoms = Choice.objects.filter(owner=request.user, created__gte=one_month_ago)
+    symptom_counts = symptoms.values('choice_text').annotate(count=Count('choice_text'))
 
-    total_choices = len(Choice.MoodChoices.choices)
+    total_choices = len(Choice.SymptomChoices.choices)
     y = [0] * total_choices
-    
+
     # Fill the list with counts from the queryset
-    for mood_count in mood_counts:
-        index = int(mood_count['choice_text'])  # Convert choice_text to an index
-        y[index] = mood_count['count']
+    for symptom_count in symptom_counts:
+        index = int(symptom_count['choice_text'])  # Convert choice_text to an index
+        y[index] = symptom_count['count']
 
 
     print(y)
 
-    x = ["Awful", "Bad", "Meh", "Good", "Great"]
+    x = ["Extreme", "Severe", "Moderate", "Mild", "None"]
 
-    line_x = [mood.created for mood in moods]
-    line_y = [mood.get_choice_text_display() for mood in moods]
+    line_x = [symptom.created for symptom in symptoms]
+    line_y = [symptom.get_choice_text_display() for symptom in symptoms]
 
     return render(
             request,
-            'emotiontrack/mood_dashboard.html',
+            'symptomtrack/symptom_dashboard.html',
             {
                 "spider_graph": create_spider_graph(x, y),
                 "line_graph": create_line_graph(line_x, line_y),
@@ -94,9 +98,9 @@ def create_spider_graph(x, y):
     return div
 
 def create_line_graph(x, y):
-    mood_mapping = {"Awful": 0, "Bad": 1, "Meh": 2, "Good": 3, "Great": 4}
+    mood_mapping = {"Extreme": 0, "Severe": 1, "Moderate": 2, "Mild": 3, "None": 4}
     y = [mood_mapping[mood] for mood in y]
-    
+
     data = [go.Scatter(x=x, y=y)]
     layout = go.Layout(
         paper_bgcolor='rgba(0,0,0,0)',
@@ -106,7 +110,7 @@ def create_line_graph(x, y):
             "title": "Mood",
             "range": [0, 4],
             "tickvals": [0, 1, 2, 3, 4],
-            "ticktext": ["Awful", "Bad", "Meh", "Good", "Great"]
+            "ticktext": ["Extreme", "Severe", "Moderate", "Mild", "None"]
         },
         margin=dict(l=20, r=20, t=20, b=20),
     )
