@@ -4,14 +4,14 @@
 
 {% block content %}
   <div class="container mt-5">
-    <h1>Flourish Homepage</h1>
+    <h1>HealthAid Homepage</h1>
     {% if user.is_authenticated %}
     <div class="my-4">
-        <h2>Welcome to Flourish, {{ user.username }}!</h2>
+        <h2>Welcome to HealthAid, {{ user.username }}!</h2>
     </div>
     {% else %}
         <div class="my-4">
-            <h2>Welcome to Flourish!</h2>
+            <h2>Welcome to HealthAid!</h2>
         </div>
     {% endif %}
     <br>

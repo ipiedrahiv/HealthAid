@@ -26,7 +26,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 .python-version
-flourish_env
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
