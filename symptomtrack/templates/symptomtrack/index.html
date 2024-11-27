@@ -8,7 +8,7 @@
 
 <form method="post">
   {% csrf_token %}
-  <label for="mood">Select your current mood:</label>
+  <label for="mood">Tell us more about your symptoms</label>
   <select name="mood" id="mood">
     {% for choice in choices %}
       <option value="{{ choice.0 }}">{{ choice.1 }}</option>
