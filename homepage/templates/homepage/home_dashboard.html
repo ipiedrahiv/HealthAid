@@ -4,27 +4,22 @@
 
 {% block content %}
   <div class="container mt-5">
-    <h1>HealthAid Homepage</h1>
     {% if user.is_authenticated %}
     <div class="my-4">
         <h2>Welcome to HealthAid, {{ user.username }}!</h2>
     </div>
     {% else %}
         <div class="my-4">
-            <h2>Welcome to HealthAid!</h2>
+            <h1>Welcome to HealthAid!</h1>
         </div>
     {% endif %}
     <br>
-    <div class="center-text">
-      <img src="{% static 'images/flourish_home.png' %}" alt="A man with flowers growing out of his head">
-    </div>
     <style>
       .center-text {
           text-align: center; /* Center horizontally */
       }
     </style>
-    <h3 class="text-center"><strong>Plant the seeds of self-care</strong></h3>
-    <h4 class="text-center">Watch yourself flourish</h4>
+    <h3 class="text-center"><strong>Your personalized health care companion</strong></h3>
     <br>
 
     <!-- <div class="d-flex justify-content-center align-items-center mb-3"> -->
@@ -65,17 +60,16 @@
       <!-- </div> -->
     <br>
     <div class="my-4">
-      <h3>Navigate Emotions</h3>
-      <p>Embark on a journey of self-discovery and emotional awareness.
-        By tracking your mood on a daily basis, you're taking an important step towards understanding the intricate
-        patterns of your emotional landscape. Reflect on the highs and lows, learn from them, and find your way to a more balanced
-        and fulfilling emotional life.
-        Start charting your course today and see how tracking the changes of your mood can lead to valuable insights
-        and personal growth.
+      <h3>Track your symptoms</h3>
+      <p>
+        By tracking your symptoms, we can provide a precise triage to help you understand better about what is going on with
+        your body and how to reach out to professionals when necessary.
       </p>
-      <a href="{% url 'symptomtrack:register_symptom'%}" class="btn btn-primary">Go to Symptom Check-in</a>
-      <br><br>
-      <a href="{% url 'symptomtrack:symptom_dashboard'%}" class="btn btn-primary">Go to Symptom Dashboard</a>
+      <div class="buttons" style="display: flex; align-items: center; justify-content: space-evenly;">
+        <a href="{% url 'symptomtrack:register_symptom'%}" class="btn btn-primary">Go to Symptom Check-in</a>
+        <br><br>
+        <!--<a href="{% url 'symptomtrack:symptom_dashboard'%}" class="btn btn-primary">Go to Symptom Dashboard</a>-->
+      </div>
     </div>
     <br>
   </div>

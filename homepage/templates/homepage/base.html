@@ -13,8 +13,13 @@
     <title>HealthAid</title>
     <style>
         .navbar-custom {
+            display: flex;
+            justify-content: space-between;
             background-color: #fff; /* white background */
             border-bottom: 1px solid #dee2e6; /* bottom border */
+        }
+        .navbar-collapse {
+            flex-grow: 0 !important;
         }
         .navbar-custom .nav-link, .navbar-custom .navbar-brand {
             color: #000; /* text color */
@@ -24,6 +29,18 @@
         }
 
         h1, h2, h3, h4, p {
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: transparent;
+            border: 1px solid #fff;
+            border-radius: 20px;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #84596B;
             color: #fff;
         }
     </style>
@@ -38,6 +55,8 @@
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
+                        <a class="nav-link" href='#'>Main Page</a>
+                        <!--<a class="nav-link" href="{% url 'symptomtrack:symptom_dashboard' %}">Tracker</a>-->
                         <form action="{% url 'logout' %}" method="post" class="form-inline" style="display: inline;">
                             {% csrf_token %}
                             <button type="submit" class="nav-link btn btn-link" style="display: inline; padding: 0; border: none; background: none;">Log Out</button>
