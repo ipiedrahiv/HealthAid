@@ -1,24 +1,48 @@
-{% extends "base.html" %}
-
+{% extends "homepage/base.html" %}
+{% load static %}
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card mt-5">
-                <div class="card-header">
-                    <h1>Register Symptom</h1>
-                </div>
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                        </div>
-                    </form>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker Dashboard</title>
+    <style>
+        body {
+            background: radial-gradient(#B287A340, #0D5C6340) !important;
+        }
+        .btn-primary {
+            background-color: #84596B;
+            border: 1px solid #fff;
+            border-radius: 20px;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #84596B;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h1>Register Symptom</h1>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</body>
 {% endblock content %}

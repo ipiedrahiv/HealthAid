@@ -107,7 +107,7 @@ def create_line_graph(x, y):
         plot_bgcolor='rgba(0,0,0,0)',
         xaxis={"title": "Date"},
         yaxis={
-            "title": "Mood",
+            "title": "Symptom",
             "range": [0, 4],
             "tickvals": [0, 1, 2, 3, 4],
             "ticktext": ["Extreme", "Severe", "Moderate", "Mild", "None"]

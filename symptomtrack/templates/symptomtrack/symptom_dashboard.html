@@ -1,13 +1,19 @@
-<!DOCTYPE html>
+{% extends 'homepage/base.html' %}
+{% load static %}
 {% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tracker Dashboard</title>
+    <style>
+        body {
+            background: radial-gradient(#B287A340, #0D5C6340) !important;
+        }
+    </style>
 </head>
 <body>
-    <h1>Your Tracker Dashboard</h1>
+    <h1 style="color: #000">Your Tracker Dashboard</h1>
     <div class="container-fluid">
         <div class="text-center">
                 <select class="form-control col-5">
