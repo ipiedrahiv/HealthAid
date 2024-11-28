@@ -47,7 +47,7 @@
 </head>
 <body style="background: radial-gradient(#B287A3, #0D5C63);">
     <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href="#">HealthAid</a>
+        <a class="navbar-brand" href="/">HealthAid</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -55,7 +55,7 @@
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href='#'>Main Page</a>
+                        <a class="nav-link" href='/'>Main Page</a>
                         <!--<a class="nav-link" href="{% url 'symptomtrack:symptom_dashboard' %}">Tracker</a>-->
                         <form action="{% url 'logout' %}" method="post" class="form-inline" style="display: inline;">
                             {% csrf_token %}
