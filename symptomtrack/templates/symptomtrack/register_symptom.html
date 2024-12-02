@@ -1,48 +1,129 @@
 {% extends "homepage/base.html" %}
 {% load static %}
 {% block content %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tracker Dashboard</title>
+    <title>Symptom Tracker</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            background: radial-gradient(#B287A340, #0D5C6340) !important;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
         }
-        .btn-primary {
-            background-color: #84596B;
-            border: 1px solid #fff;
-            border-radius: 20px;
-            color: #fff;
+        p {
+            color: #000 !important;
         }
-
-        .btn-primary:hover {
-            background-color: #84596B;
-            color: #fff;
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .box {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+        .box img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .slider-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .slider-container label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .slider-container input[type="range"] {
+            width: 100%;
         }
     </style>
 </head>
 <body>
+    <h1 style="text-align: center;">Symptom Tracker</h1>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card mt-5">
-                    <div class="card-header">
-                        <h1>Register Symptom</h1>
-                    </div>
-                    <div class="card-body">
-                        <form method="post">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <div class="box" data-symptom="headache">
+            <i class="fas fa-4x fa-head-side-virus"></i>
+            <p>Head Ache</p>
+        </div>
+        <div class="box" data-symptom="abdominal-pain">
+            <i class="fas fa-4x fa-heartbeat"></i>
+            <p>Abdominal Pain</p>
+        </div>
+        <div class="box" data-symptom="chest-pain">
+            <i class="fas fa-4x fa-lungs"></i>
+            <p>Chest Pain</p>
+        </div>
+        <div class="box" data-symptom="back-pain">
+            <i class="fas fa-4x fa-chair"></i>
+            <p>Back Pain</p>
+        </div>
+        <div class="box" data-symptom="sore-throat">
+            <i class="fas fa-4x fa-comment-medical"></i>
+            <p>Sore Throat</p>
         </div>
     </div>
+
+    <div id="pain-level" class="slider-container hidden">
+        <label for="pain-slider">Pain Level</label>
+        <input type="range" id="pain-slider" name="pain-slider" min="0" max="10" value="0">
+        <p>Level: <span id="pain-value">0</span></p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const boxes = document.querySelectorAll(".box");
+            const sliderContainer = document.getElementById("pain-level");
+            const slider = document.getElementById("pain-slider");
+            const painValue = document.getElementById("pain-value");
+
+            boxes.forEach(box => {
+                box.addEventListener("click", function () {
+                    // Display the slider
+                    sliderContainer.classList.remove("hidden");
+
+                    // Reset the slider to default
+                    slider.value = 0;
+                    painValue.textContent = 0;
+
+                    // Highlight selected box and reset others
+                    boxes.forEach(b => b.style.borderColor = "#ddd");
+                    this.style.borderColor = "#007bff";
+                });
+            });
+
+            // Update the pain level text when slider is moved
+            slider.addEventListener("input", function () {
+                painValue.textContent = this.value;
+            });
+        });
+    </script>
 </body>
-{% endblock content %}
+{% endblock %}
+</html>
