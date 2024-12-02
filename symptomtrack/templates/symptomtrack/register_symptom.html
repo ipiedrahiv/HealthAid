@@ -13,10 +13,13 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f9;
+            background: radial-gradient(#B287A340, #0D5C6340) !important;
         }
-        p {
+        h1 {
+            text-align: center;
+            color: #000 !important;
+        }
+        p, label {
             color: #000 !important;
         }
         .container {
@@ -43,11 +46,6 @@
             transform: scale(1.05);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
         }
-        .box img {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 10px;
-        }
         .hidden {
             display: none;
         }
@@ -55,18 +53,26 @@
             text-align: center;
             margin-top: 20px;
         }
-        .slider-container label {
+        .slider-container label, .slider-container select, .slider-container p {
             display: block;
-            font-weight: bold;
-            margin-bottom: 10px;
+            margin: 10px auto;
+            color: #000;
         }
-        .slider-container input[type="range"] {
-            width: 100%;
+        .triage-questions {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .triage-questions p {
+            font-weight: bold;
+        }
+        .flex-pain {
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Symptom Tracker</h1>
+    <h1>Symptom Tracker</h1>
     <div class="container">
         <div class="box" data-symptom="headache">
             <i class="fas fa-4x fa-head-side-virus"></i>
@@ -90,37 +96,62 @@
         </div>
     </div>
 
-    <div id="pain-level" class="slider-container hidden">
-        <label for="pain-slider">Pain Level</label>
-        <input type="range" id="pain-slider" name="pain-slider" min="0" max="10" value="0">
-        <p>Level: <span id="pain-value">0</span></p>
+    <div class="flex-pain">
+        <div id="pain-level" class="slider-container hidden">
+            <label for="pain-select">Pain Level</label>
+            <select id="pain-select" name="pain-level">
+                <option value="none">None</option>
+                <option value="moderate">Moderate</option>
+                <option value="severe">Severe</option>
+                <option value="extreme">Extreme</option>
+            </select>
+            <br>
+        </div>
+
+        <div id="triage-questions" class="triage-questions hidden">
+            <p>Please answer the following questions:</p>
+            <label for="q1">Do you have difficulty breathing?</label>
+            <select id="q1">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+            <label for="q2">Is the pain preventing you from standing or moving?</label>
+            <select id="q2">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+            </select>
+        </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const boxes = document.querySelectorAll(".box");
             const sliderContainer = document.getElementById("pain-level");
-            const slider = document.getElementById("pain-slider");
-            const painValue = document.getElementById("pain-value");
+            const painSelect = document.getElementById("pain-select");
+            const triageQuestions = document.getElementById("triage-questions");
 
             boxes.forEach(box => {
                 box.addEventListener("click", function () {
-                    // Display the slider
+                    // Show the pain level dropdown
                     sliderContainer.classList.remove("hidden");
+                    triageQuestions.classList.add("hidden");
 
-                    // Reset the slider to default
-                    slider.value = 0;
-                    painValue.textContent = 0;
-
-                    // Highlight selected box and reset others
+                    // Highlight the selected box
                     boxes.forEach(b => b.style.borderColor = "#ddd");
                     this.style.borderColor = "#007bff";
+
+                    // Reset the dropdown and triage questions
+                    painSelect.value = "none";
                 });
             });
 
-            // Update the pain level text when slider is moved
-            slider.addEventListener("input", function () {
-                painValue.textContent = this.value;
+            painSelect.addEventListener("change", function () {
+                // Show triage questions if pain is severe or extreme
+                if (this.value === "severe" || this.value === "extreme") {
+                    triageQuestions.classList.remove("hidden");
+                } else {
+                    triageQuestions.classList.add("hidden");
+                }
             });
         });
     </script>
