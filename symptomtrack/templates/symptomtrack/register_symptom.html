@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
+        button.active {
+        background-color: #4CAF50;
+        color: white;
+        border: 2px solid #4CAF50;
+        }
+        button {
+        cursor: pointer;
+        padding: 10px
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -19,8 +29,49 @@
             text-align: center;
             color: #000 !important;
         }
+
+        h2,h3 {
+            text-align: center;
+            color: #000 !important;
+        }
+
         p, label {
             color: #000 !important;
+            line-height: 3.2;
+        }
+
+        table {
+        width: 100%; /* Optional: make the table take the full width */
+        /* border-collapse: collapse; Ensures consistent cell spacing */
+        }
+
+        td {
+        padding: 10px; /* Adds some space inside each cell */
+        vertical-align: top; /* Aligns text to the top */
+        color: #000 !important;
+        }
+
+        td:first-child {
+            text-align: left; /* Aligns questions to the left */
+            width: 70%; /* Adjusts the width of the question column */
+            border-right: 2px solid #ccc; /* Adds a separation line */
+        }
+        td:last-child {
+            text-align: center; /* Centers the answer buttons */
+            width: 30%; /* Adjusts the width of the answer column */
+        }
+        button {
+            margin: 0 5px; /* Adds spacing between buttons */
+            padding: 8px 16px; /* Adjusts button size */
+            cursor: pointer; /* Changes cursor on hover */
+            border: 1px solid #007BFF; /* Adds a border to the buttons */
+            background-color: #f9f9f9; /* Sets a light background for buttons */
+            border-radius: 4px; /* Rounds button corners */
+        }
+        
+        button:hover {
+            background-color: #007BFF; /* Changes background on hover */
+            color: #fff; /* Makes text white on hover */
         }
         .container {
             display: flex;
@@ -28,6 +79,19 @@
             gap: 20px;
             justify-content: center;
         }
+
+        .pain-level-label {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
         .box {
             width: 150px;
             height: 150px;
@@ -69,6 +133,49 @@
             display: flex;
             flex-direction: column;
         }
+
+        .pain-level-label {
+            display: block; /* Ensures the labels are treated as block elements */
+            margin-bottom: 20px; /* Adds space below each label */
+            margin-top: 20px;
+            font-size: 1.5rem; /* Optional: Adjust font size if needed */
+        }
+
+
+        .pain-button {
+            font-size: 1rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: white;
+            font-weight: bold;
+        }
+
+        .pain-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .pain-button:nth-child(1) {
+            background-color: green;
+            
+        }
+
+        .pain-button:nth-child(2) {
+            background-color: rgba(236, 191, 31, 0.841);
+            
+        }
+
+        .pain-button:nth-child(3) {
+            background-color: rgb(255, 119, 0);
+        }
+
+        .pain-button:nth-child(4) {
+            background-color: red;
+        }
     </style>
 </head>
 <body>
@@ -88,7 +195,7 @@
         </div>
         <div class="box" data-symptom="back-pain">
             <i class="fas fa-4x fa-chair"></i>
-            <p>Back Pain</p>
+            <p>Low Back Pain</p>
         </div>
         <div class="box" data-symptom="sore-throat">
             <i class="fas fa-4x fa-comment-medical"></i>
@@ -98,43 +205,239 @@
 
     <div class="flex-pain">
         <div id="pain-level" class="slider-container hidden">
-            <label for="pain-select">Pain Level</label>
-            <select id="pain-select" name="pain-level">
-                <option value="none">None</option>
-                <option value="moderate">Moderate</option>
-                <option value="severe">Severe</option>
-                <option value="extreme">Extreme</option>
-            </select>
-            <br>
+            <h3 for="pain-select" class="pain-level-label"> Indicate your pain level for this symptom</h3>
+            <div class="buttons-container" id="pain-select" name="pain-level">
+                <button class="pain-button" data-value="None">None</button>
+                <button class="pain-button" data-value="Moderate">Moderate</button>
+                <button class="pain-button" data-value="Severe">Severe</button>
+                <button class="pain-button" data-value="Extreme">Extreme</button>
+            </div>
         </div>
-
+        
         <div id="triage-questions" class="triage-questions hidden">
-            <p>Please answer the following questions:</p>
-            <label for="q1">Do you have difficulty breathing?</label>
-            <select id="q1">
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </select>
-            <label for="q2">Is the pain preventing you from standing or moving?</label>
-            <select id="q2">
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-            </select>
+            <br></br>
+            <h3>Please answer the following questions:</h3>
+            <table>
+                <tbody id="headache">
+                    <tr>
+                        <td>Is sudden and severe or the "worst headache ever"?</td>
+                        <td>
+                            <button id="q1-yes" onclick="selectOption('q1', 'yes')">Yes</button>
+                            <button id="q1-no" onclick="selectOption('q1', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Is accompanied by a fever, nausea or vomiting not related to a known illness?</td>
+                        <td>
+                            <button id="q2-yes" onclick="selectOption('q2', 'yes')">Yes</button>
+                            <button id="q2-no" onclick="selectOption('q2', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Is accompanied by a stiff neck, rash, confusion, seizures, double vision, weakness, numbness or difficulty speaking?</td>
+                        <td>
+                            <button id="q4-yes" onclick="selectOption('q4', 'yes')">Yes</button>
+                            <button id="q4-no" onclick="selectOption('q4', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Follows a head injury, fall or bump?</td>
+                        <td>
+                            <button id="q5-yes" onclick="selectOption('q5', 'yes')">Yes</button>
+                            <button id="q5-no" onclick="selectOption('q5', 'no')">No</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="abdominal">
+                    <tr>
+                        <td>The pain is related to an accident or injury?</td>
+                        <td>
+                            <button id="q1-yes" onclick="selectOption('q1', 'yes')">Yes</button>
+                            <button id="q1-no" onclick="selectOption('q1', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>The pain is accompanied by shortness of breath or dizziness?</td>
+                        <td>
+                            <button id="q2-yes" onclick="selectOption('q2', 'yes')">Yes</button>
+                            <button id="q2-no" onclick="selectOption('q2', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>You vomit blood?</td>
+                        <td>
+                            <button id="q3-yes" onclick="selectOption('q3', 'yes')">Yes</button>
+                            <button id="q3-no" onclick="selectOption('q3', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Your stool is black or bloody?</td>
+                        <td>
+                            <button id="q4-yes" onclick="selectOption('q4', 'yes')">Yes</button>
+                            <button id="q4-no" onclick="selectOption('q4', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Your stool is black or bloody?</td>
+                        <td>
+                            <button id="q5-yes" onclick="selectOption('q5', 'yes')">Yes</button>
+                            <button id="q5-no" onclick="selectOption('q5', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Your stool is black or bloodyYou find blood in your urine?</td>
+                        <td>
+                            <button id="q6-yes" onclick="selectOption('q6', 'yes')">Yes</button>
+                            <button id="q6-no" onclick="selectOption('q6', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Your abdomen is swollen and tender?</td>
+                        <td>
+                            <button id="q7-yes" onclick="selectOption('q7', 'yes')">Yes</button>
+                            <button id="q7-no" onclick="selectOption('q7', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>You experience a high fever?</td>
+                        <td>
+                            <button id="q8-yes" onclick="selectOption('q8', 'yes')">Yes</button>
+                            <button id="q8-no" onclick="selectOption('q8', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>You experience persistent nausea or vomiting?</td>
+                        <td>
+                            <button id="q9-yes" onclick="selectOption('q9', 'yes')">Yes</button>
+                            <button id="q9-no" onclick="selectOption('q9', 'no')">No</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="chest">
+                    <tr>
+                        <td>You have uncomfortable pressure, fullness or squeezing pain in your chest for longer than a few minutes?</td>
+                        <td>
+                            <button id="q1-yes" onclick="selectOption('q1', 'yes')">Yes</button>
+                            <button id="q1-no" onclick="selectOption('q1', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Your chest pain is accompanied by shortness of breath, sweating, nausea, dizziness or fainting?</td>
+                        <td>
+                            <button id="q2-yes" onclick="selectOption('q2', 'yes')">Yes</button>
+                            <button id="q2-no" onclick="selectOption('q2', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>The pain radiates beyond your chest to one or both of your arms or your neck?</td>
+                        <td>
+                            <button id="q3-yes" onclick="selectOption('q3', 'yes')">Yes</button>
+                            <button id="q3-no" onclick="selectOption('q3', 'no')">No</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="lowback">
+                    <tr>
+                        <td>Causes weakness, numbness or tingling in one or both legs?</td>
+                        <td>
+                            <button id="q2-yes" onclick="selectOption('q2', 'yes')">Yes</button>
+                            <button id="q2-no" onclick="selectOption('q2', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Is associated with new bowel or bladder problems?</td>
+                        <td>
+                            <button id="q3-yes" onclick="selectOption('q3', 'yes')">Yes</button>
+                            <button id="q3-no" onclick="selectOption('q3', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Is accompanied by fever?</td>
+                        <td>
+                            <button id="q4-yes" onclick="selectOption('q4', 'yes')">Yes</button>
+                            <button id="q4-no" onclick="selectOption('q4', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Is associated with pain or throbbing in the abdomen?</td>
+                        <td>
+                            <button id="q5-yes" onclick="selectOption('q5', 'yes')">Yes</button>
+                            <button id="q5-no" onclick="selectOption('q5', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Is accompanied by unexplained weight loss?</td>
+                        <td>
+                            <button id="q7-yes" onclick="selectOption('q7', 'yes')">Yes</button>
+                            <button id="q7-no" onclick="selectOption('q7', 'no')">No</button>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+                <tbody id="Sorethroat">
+                    <tr>
+                        <td>Do you have difficulty breathing or swallowing?</td>
+                        <td>
+                            <button id="q1-yes" onclick="selectOption('q1', 'yes')">Yes</button>
+                            <button id="q1-no" onclick="selectOption('q1', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Have you experienced the fever or hoarse voice for more than one week?</td>
+                        <td>
+                            <button id="q2-yes" onclick="selectOption('q2', 'yes')">Yes</button>
+                            <button id="q2-no" onclick="selectOption('q2', 'no')">No</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Do you have blood in your saliva, skin rash or signs of dehydration?</td>
+                        <td>
+                            <button id="q3-yes" onclick="selectOption('q3', 'yes')">Yes</button>
+                            <button id="q3-no" onclick="selectOption('q3', 'no')">No</button>
+                        </td>
+                    </tr>                
+                </tbody>
+            </table>
         </div>
+        
     </div>
+    
 
     <script>
+    //     function selectOption(questionId, value) {
+    //     console.log(`Question ${questionId} answered: ${value}`);
+    //     // Add logic here for marking the button or updating the state.
+    // }
+        
+        
         document.addEventListener("DOMContentLoaded", function () {
             const boxes = document.querySelectorAll(".box");
             const sliderContainer = document.getElementById("pain-level");
             const painSelect = document.getElementById("pain-select");
             const triageQuestions = document.getElementById("triage-questions");
+            triageQuestions.style.display = "none";
+
+            document.getElementById("pain-select").addEventListener("click", function (event) {
+                // Check if a button was clicked
+                if (event.target.classList.contains("pain-button")) {
+                    const selectedValue = event.target.getAttribute("data-value"); // Get the clicked button's value
+
+                    // Show triage-questions only for Severe or Extreme
+                    if (selectedValue === "Severe" || selectedValue === "Extreme") {
+                        triageQuestions.style.display = "block";
+                    } else {
+                        triageQuestions.style.display = "none";
+                    }
+                }
+            });
 
             boxes.forEach(box => {
                 box.addEventListener("click", function () {
                     // Show the pain level dropdown
                     sliderContainer.classList.remove("hidden");
-                    triageQuestions.classList.add("hidden");
+                    // triageQuestions.classList.add("hidden");
+                    triageQuestions.style.display = "none";
+                    
 
                     // Highlight the selected box
                     boxes.forEach(b => b.style.borderColor = "#ddd");
@@ -149,11 +452,18 @@
                 // Show triage questions if pain is severe or extreme
                 if (this.value === "severe" || this.value === "extreme") {
                     triageQuestions.classList.remove("hidden");
+                    LaiatriageQuestions.classList.remove("hidden");
+
                 } else {
                     triageQuestions.classList.add("hidden");
+                    LaiatriageQuestions.classList.add("hidden");
+
                 }
             });
+
         });
+
+        
     </script>
 </body>
 {% endblock %}
