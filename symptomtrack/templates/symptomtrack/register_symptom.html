@@ -72,7 +72,7 @@
     </style>
 </head>
 <body>
-    <h1>Symptom Tracker</h1>
+<!--    <h1>Symptom Tracker</h1>
     <div class="container">
         <div class="box" data-symptom="headache">
             <i class="fas fa-4x fa-head-side-virus"></i>
@@ -96,16 +96,50 @@
         </div>
     </div>
 
+
+    <h1>Symptom Tracker</h1>
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_symptom_type">Symptom Type:</label>
+            {{ form.symptom_type }}
+        </div>
+        <div class="form-group">
+            <label for="id_choice_text">Pain Level:</label>
+            {{ form.choice_text }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+    <form method="POST">
+    {% csrf_token %}
+
     <div class="flex-pain">
+        
+        <!--
         <div id="pain-level" class="slider-container hidden">
+            <form method="post">
+            {% csrf_token %}
+                {{ form.as_p }}
             <label for="pain-select">Pain Level</label>
             <select id="pain-select" name="pain-level">
                 <option value="none">None</option>
+                <option value="mild">Mild</option>
                 <option value="moderate">Moderate</option>
                 <option value="severe">Severe</option>
                 <option value="extreme">Extreme</option>
             </select>
             <br>
+        </div>
+        -->
+        <div id="pain-level" class="slider-container hidden">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+            </form>
         </div>
 
         <div id="triage-questions" class="triage-questions hidden">
@@ -121,8 +155,6 @@
                 <option value="yes">Yes</option>
             </select>
         </div>
-    </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const boxes = document.querySelectorAll(".box");
@@ -155,6 +187,84 @@
             });
         });
     </script>
+-->
+
+<h1>Symptom Tracker</h1>
+<div class="container">
+    <!-- Hidden form to submit the data -->
+    <form method="post" id="symptom-form">
+        {% csrf_token %}
+        <!-- Hidden input to store the selected symptom type -->
+        <input type="hidden" id="symptom-type-input" name="symptom_type" value="">
+        <!-- Dropdown for selecting pain level -->
+        <div class="form-group">
+            <label for="pain-level-select">Pain Level:</label>
+            <select id="pain-level-select" name="choice_text" class="form-control">
+                <option value="0">Extreme</option>
+                <option value="1">Severe</option>
+                <option value="2">Moderate</option>
+                <option value="3">Mild</option>
+                <option value="4">None</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary hidden" id="submit-button">Submit</button>
+    </form>
+
+    <!-- Symptom selection with clickable boxes -->
+    <div class="symptom-boxes">
+        <div class="box" data-symptom="headache">
+            <i class="fas fa-4x fa-head-side-virus"></i>
+            <p>Head Ache</p>
+        </div>
+        <div class="box" data-symptom="abdominal-pain">
+            <i class="fas fa-4x fa-heartbeat"></i>
+            <p>Abdominal Pain</p>
+        </div>
+        <div class="box" data-symptom="chest-pain">
+            <i class="fas fa-4x fa-lungs"></i>
+            <p>Chest Pain</p>
+        </div>
+        <div class="box" data-symptom="back-pain">
+            <i class="fas fa-4x fa-chair"></i>
+            <p>Back Pain</p>
+        </div>
+        <div class="box" data-symptom="sore-throat">
+            <i class="fas fa-4x fa-comment-medical"></i>
+            <p>Sore Throat</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript to handle symptom selection
+    document.querySelectorAll('.box').forEach((box) => {
+        box.addEventListener('click', function () {
+            // Get the selected symptom type
+            const selectedSymptom = this.dataset.symptom;
+
+            // Update the hidden input field with the selected symptom
+            document.getElementById('symptom-type-input').value = selectedSymptom;
+
+            // Highlight the selected box
+            document.querySelectorAll('.box').forEach(box => box.classList.remove('selected'));
+            this.classList.add('selected');
+
+            // Show the pain level dropdown (optional)
+            document.getElementById('pain-level-select').focus();
+        });
+    });
+
+    // Automatically submit the form when the pain level is selected
+    document.getElementById('pain-level-select').addEventListener('change', function () {
+        // Ensure a symptom type is selected before submitting
+        const symptomType = document.getElementById('symptom-type-input').value;
+        if (symptomType) {
+            document.getElementById('symptom-form').submit();
+        } else {
+            alert('Please select a symptom type first.');
+        }
+    });
+</script>
 </body>
 {% endblock %}
 </html>

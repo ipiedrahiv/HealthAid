@@ -35,7 +35,7 @@ def register_symptom(request):
             mood = form.save(commit=False)
             mood.owner = request.user
             mood.save()
-            return redirect('symptomtrack:symptom_dashboard')  # Redirect to a thank you page or any other page
+            return redirect('symptomtrack:register_symptom')  # Redirect to a thank you page or any other page
     else:
         form = SymptomForm()
     return render(request, 'symptomtrack/register_symptom.html', {'form': form})
