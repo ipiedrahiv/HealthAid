@@ -214,7 +214,7 @@
             </div>
         </div>
         
-        <div id="triage-questions" class="triage-questions hidden">
+        <div id="triage-questions-headache" class="triage-questions hidden">
             <br></br>
             <h3>Please answer the following questions:</h3>
             <table>
@@ -404,62 +404,99 @@
     
 
     <script>
-    //     function selectOption(questionId, value) {
-    //     console.log(`Question ${questionId} answered: ${value}`);
-    //     // Add logic here for marking the button or updating the state.
-    // }
-        
-        
+            
         document.addEventListener("DOMContentLoaded", function () {
             const boxes = document.querySelectorAll(".box");
             const sliderContainer = document.getElementById("pain-level");
             const painSelect = document.getElementById("pain-select");
-            const triageQuestions = document.getElementById("triage-questions");
-            triageQuestions.style.display = "none";
-
-            document.getElementById("pain-select").addEventListener("click", function (event) {
-                // Check if a button was clicked
-                if (event.target.classList.contains("pain-button")) {
-                    const selectedValue = event.target.getAttribute("data-value"); // Get the clicked button's value
-
-                    // Show triage-questions only for Severe or Extreme
-                    if (selectedValue === "Severe" || selectedValue === "Extreme") {
-                        triageQuestions.style.display = "block";
-                    } else {
-                        triageQuestions.style.display = "none";
-                    }
-                }
-            });
+            const triageQuestionsH = document.getElementById("triage-questions-headache");
 
             boxes.forEach(box => {
                 box.addEventListener("click", function () {
+                    // Display the slider
                     // Show the pain level dropdown
                     sliderContainer.classList.remove("hidden");
-                    // triageQuestions.classList.add("hidden");
-                    triageQuestions.style.display = "none";
-                    
+                    triageQuestionsH.classList.add("hidden");
 
+                    // Reset the slider to default
+                    slider.value = 0;
+                    painValue.textContent = 0;
+                    // Highlight selected box and reset others
                     // Highlight the selected box
                     boxes.forEach(b => b.style.borderColor = "#ddd");
                     this.style.borderColor = "#007bff";
-
                     // Reset the dropdown and triage questions
                     painSelect.value = "none";
                 });
             });
 
+            document.getElementById("pain-select").addEventListener("click", function (event) {
+                // Check if a button was clicked
+                if (event.target.classList.contains("pain-button")) {
+                    const selectedValue = event.target.getAttribute("data-value"); // Get the clicked button's value
+                    // Show triage-questions only for Severe or Extreme
+                    if (selectedValue === "Severe" || selectedValue === "Extreme") {
+                        triageQuestionsH.style.display = "block";
+                    } else {
+                        triageQuestionsH.style.display = "none";
+                    }
+                }
+            });
+
+            // Update the pain level text when slider is moved
+            slider.addEventListener("input", function () {
+                painValue.textContent = this.value;
             painSelect.addEventListener("change", function () {
                 // Show triage questions if pain is severe or extreme
                 if (this.value === "severe" || this.value === "extreme") {
                     triageQuestions.classList.remove("hidden");
-                    LaiatriageQuestions.classList.remove("hidden");
-
                 } else {
                     triageQuestions.classList.add("hidden");
-                    LaiatriageQuestions.classList.add("hidden");
-
                 }
             });
+        });
+
+            // painSelect.addEventListener("click", function (event) {
+            //     if (event.target.classList.contains("pain-button")) {
+            //         const selectedValue = event.target.getAttribute("data-value");
+
+            //         // Check the condition
+            //         if ((selectedValue === "Severe" || selectedValue === "Extreme") && selectedSymptom === "headache") {
+            //             triageQuestionsHead.style.display = "block";
+            //         } else {
+            //             triageQuestionsHead.style.display = "none";
+            //         }
+            //     }
+            // });
+            // document.getElementById("pain-select").addEventListener("click", function (event) {
+            //     // Check if a button was clicked
+            //     if (event.target.classList.contains("pain-button")) {
+            //         const selectedValue = event.target.getAttribute("data-value"); // Get the clicked button's value
+
+            //         // Show triage-questions only for Severe or Extreme
+            //         if (selectedValue === "Severe" || selectedValue === "Extreme") {
+            //             triageQuestionsHead.style.display = "block";
+            //         } else {
+            //             triageQuestionsHead.style.display = "none";
+            //         }
+            //     }
+            // });
+
+            
+
+
+            // painSelect.addEventListener("change", function () {
+            //     // Show triage questions if pain is severe or extreme
+            //     if (this.value === "severe" || this.value === "extreme") {
+            //         triageQuestions.classList.remove("hidden");
+            //         LaiatriageQuestions.classList.remove("hidden");
+
+            //     } else {
+            //         triageQuestions.classList.add("hidden");
+            //         LaiatriageQuestions.classList.add("hidden");
+
+            //     }
+            // });
 
         });
 
