@@ -35,10 +35,12 @@ def register_symptom(request):
             mood = form.save(commit=False)
             mood.owner = request.user
             mood.save()
-            return redirect('symptomtrack:symptom_dashboard')  # Redirect to a thank you page or any other page
+            return redirect('symptomtrack:register_symptom')  # Redirect to a thank you page or any other page
     else:
         form = SymptomForm()
     return render(request, 'symptomtrack/register_symptom.html', {'form': form})
+
+from collections import defaultdict
 
 @login_required
 def symptom_dashboard(request):
@@ -47,34 +49,90 @@ def symptom_dashboard(request):
     # Calculate the date for one month ago
     one_month_ago = now - timedelta(days=30)
 
+    # Filter symptoms by the logged-in user and date range
     symptoms = Choice.objects.filter(owner=request.user, created__gte=one_month_ago)
-    symptom_counts = symptoms.values('choice_text').annotate(count=Count('choice_text'))
 
-    total_choices = len(Choice.SymptomChoices.choices)
-    y = [0] * total_choices
+    # Group symptoms by symptom_type
+    grouped_symptoms = defaultdict(list)
+    for symptom in symptoms:
+        grouped_symptoms[symptom.symptom_type].append(symptom)
 
-    # Fill the list with counts from the queryset
-    for symptom_count in symptom_counts:
-        index = int(symptom_count['choice_text'])  # Convert choice_text to an index
-        y[index] = symptom_count['count']
+    charts = {}
 
-
-    print(y)
-
-    x = ["Extreme", "Severe", "Moderate", "Mild", "None"]
-
-    line_x = [symptom.created for symptom in symptoms]
-    line_y = [symptom.get_choice_text_display() for symptom in symptoms]
-
-    return render(
-            request,
-            'symptomtrack/symptom_dashboard.html',
-            {
-                "spider_graph": create_spider_graph(x, y),
-                "line_graph": create_line_graph(line_x, line_y),
-            },
+    # Create charts for each symptom_type
+    for symptom_type, symptom_list in grouped_symptoms.items():
+        # Aggregate counts for the spider graph
+        symptom_counts = (
+            Choice.objects.filter(
+                owner=request.user,
+                symptom_type=symptom_type,
+                created__gte=one_month_ago,
+            )
+            .values("choice_text")
+            .annotate(count=Count("choice_text"))
         )
 
+        total_choices = len(Choice.SymptomChoices.choices)
+        y = [0] * total_choices
+
+        for symptom_count in symptom_counts:
+            index = int(symptom_count["choice_text"])
+            y[index] = symptom_count["count"]
+
+        x = ["Extreme", "Severe", "Moderate", "Mild", "None"]
+
+        # Line graph data
+        line_x = [symptom.created for symptom in symptom_list]
+        line_y = [symptom.get_choice_text_display() for symptom in symptom_list]
+
+        # Add graphs for this symptom type
+        charts[symptom_type] = {
+            "spider_graph": create_spider_graph(x, y),
+            "line_graph": create_line_graph(line_x, line_y),
+        }
+
+    return render(
+        request,
+        "symptomtrack/symptom_dashboard.html",
+        {"charts": charts},
+    )
+
+
+#@login_required
+#def symptom_dashboard(request):
+#    # Get the current date and time
+#    now = timezone.now()
+#    # Calculate the date for one month ago
+#    one_month_ago = now - timedelta(days=30)
+#
+#    symptoms = Choice.objects.filter(owner=request.user, created__gte=one_month_ago)
+#    symptom_counts = symptoms.values('choice_text').annotate(count=Count('choice_text'))
+#
+#    total_choices = len(Choice.SymptomChoices.choices)
+#    y = [0] * total_choices
+#
+#    # Fill the list with counts from the queryset
+#    for symptom_count in symptom_counts:
+#        index = int(symptom_count['choice_text'])  # Convert choice_text to an index
+#        y[index] = symptom_count['count']
+#
+#
+#    print(y)
+#
+#    x = ["Extreme", "Severe", "Moderate", "Mild", "None"]
+#
+#    line_x = [symptom.created for symptom in symptoms]
+#    line_y = [symptom.get_choice_text_display() for symptom in symptoms]
+#
+#    return render(
+#            request,
+#            'symptomtrack/symptom_dashboard.html',
+#            {
+#                "spider_graph": create_spider_graph(x, y),
+#                "line_graph": create_line_graph(line_x, line_y),
+#            },
+#        )
+#
 def create_spider_graph(x, y):
     fig = go.Figure(data=go.Scatterpolar(
         r=y,

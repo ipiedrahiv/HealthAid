@@ -19,8 +19,22 @@ class Choice(models.Model):
         MILD = '3', 'Mild'
         NONE = '4', 'None'
 
+    class SymptomTypes(models.TextChoices):
+        HEADACHE = 'headache', 'Head Ache'
+        ABDOMINAL_PAIN = 'abdominal-pain', 'Abdominal Pain'
+        CHEST_PAIN = 'chest-pain', 'Chest Pain'
+        BACK_PAIN = 'back-pain', 'Back Pain'
+        SORE_THROAT = 'sore-throat', 'Sore Throat'
+
     created = models.DateTimeField(auto_now_add=True)
+   
     owner = models.ForeignKey(User, help_text="It is a Foreign key with auth.models.User. Used to manage authentication and accounting.", on_delete=models.CASCADE, default=None)
+    
     choice_text = models.CharField('result', max_length=1, choices=SymptomChoices.choices, default=SymptomChoices.NONE)
+    
+    symptom_type = models.CharField('symptom type', max_length=50, choices=SymptomTypes.choices, default=SymptomTypes.HEADACHE)
+
     def __str__(self):
-        return self.choice_text
+        print(f"{self.choice_text}, {self.symptom_type}")
+        return f"{self.get_choice_text_display()} - {self.get_symptom_type_display()}"
+
